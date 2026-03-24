@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ユキナシ | Live2Dモデリング・イラスト制作</title>
+    <meta name="description" content="ユキナシのLive2Dモデリング・イラスト制作。一枚絵からパーツ分け・モデリング・映像制作までワンストップで対応。カバー株式会社様実績あり。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #fefcfd;
+            --bg-secondary: #fdf2f8;
+            --bg-card: #ffffff;
+            --bg-card-hover: #fff5f9;
+
+            --text-primary: #1a1a2e;
+            --text-secondary: #64648c;
+            --text-muted: #9ca3af;
+
+            --accent-pink: #ec4899;
+            --accent-pink-light: #f472b6;
+            --accent-pink-pale: #fce7f3;
+            --accent-purple: #8b5cf6;
+            --accent-purple-light: #a78bfa;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-green: #10b981;
+            --accent-amber: #f59e0b;
+
+            --gradient-main: linear-gradient(135deg, #f9a8d4, #db2777);
+            --gradient-soft: linear-gradient(135deg, #fce7f3, #ede9fe);
+            --gradient-card: linear-gradient(135deg, rgba(236, 72, 153, 0.05), rgba(139, 92, 246, 0.03));
+
+            --border-subtle: rgba(236, 72, 153, 0.15);
+            --border-card: rgba(0, 0, 0, 0.06);
+
+            --shadow-soft: 0 4px 24px rgba(236, 72, 153, 0.08);
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.06);
+            --shadow-glow: 0 0 40px rgba(236, 72, 153, 0.12);
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+
+            --font-jp: 'Noto Sans JP', sans-serif;
+            --font-en: 'Inter', sans-serif;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body { font-family: var(--font-jp); background: var(--bg-primary); color: var(--text-primary); line-height: 1.8; overflow-x: hidden; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+        .section { padding: 100px 0; position: relative; }
+        .section-label { font-family: var(--font-en); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent-pink); margin-bottom: 12px; display: block; }
+        .section-title { font-size: 1.75rem; font-weight: 700; margin-bottom: 16px; line-height: 1.4; }
+        .section-subtitle { font-size: 1rem; color: var(--text-secondary); max-width: 600px; line-height: 1.8; }
+        .gradient-text { background: var(--gradient-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+        /* ===== Hero (Dark Particle) ===== */
+        .hero { min-height: 90vh; display: flex; align-items: center; position: relative; overflow: hidden; padding: 120px 0 80px; background: linear-gradient(135deg, #0f0c29, #1a1040, #24243e); }
+        .hero__particles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+        .hero__particle { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: rgba(236, 72, 153, 0.6); animation: particleFloat linear infinite; }
+        @keyframes particleFloat { 0% { transform: translateY(0) scale(1); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-100vh) scale(0.5); opacity: 0; } }
+        .hero__video-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; display: none; }
+        .hero__overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(15,12,41,0.7) 0%, rgba(36,36,62,0.85) 100%); z-index: 0; display: none; }
+        .hero__content { position: relative; z-index: 1; text-align: center; max-width: 800px; margin: 0 auto; }
+        .hero__badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(236, 72, 153, 0.15); border: 1px solid rgba(236, 72, 153, 0.3); padding: 6px 16px; border-radius: 100px; font-size: 0.8rem; font-weight: 500; color: var(--accent-pink-light); margin-bottom: 32px; animation: fadeInUp 0.8s ease; backdrop-filter: blur(8px); }
+        .hero__badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-green); animation: pulse 2s ease-in-out infinite; }
+        .hero__title { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; line-height: 1.4; margin-bottom: 24px; animation: fadeInUp 0.8s ease 0.1s both; color: #ffffff; }
+        .hero__title .gradient-text { background: linear-gradient(135deg, #f472b6, #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero__description { font-size: 1.1rem; color: rgba(255,255,255,0.7); margin-bottom: 48px; line-height: 1.9; animation: fadeInUp 0.8s ease 0.2s both; }
+        .hero__cta-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; animation: fadeInUp 0.8s ease 0.3s both; }
+
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; border-radius: 100px; font-size: 0.95rem; font-weight: 600; text-decoration: none; transition: all 0.3s ease; cursor: pointer; border: none; font-family: var(--font-jp); position: relative; overflow: hidden; }
+        .btn--primary { background: var(--gradient-main); color: white; box-shadow: 0 4px 20px rgba(236, 72, 153, 0.3); }
+        .btn--primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(236, 72, 153, 0.4); }
+        .btn-sparkle { position: absolute; border-radius: 50%; pointer-events: none; background: rgba(255,255,255,0.9); box-shadow: 0 0 6px rgba(255,255,255,0.8); animation: btnSparkle 0.6s ease-out forwards; }
+        @keyframes btnSparkle { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(0) translateY(-20px); opacity: 0; } }
+        .btn--secondary { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.25); backdrop-filter: blur(8px); }
+        .btn--secondary:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
+
+        /* ===== About ===== */
+        .about-section { background: white; }
+        .about__inner { display: flex; gap: 60px; align-items: center; margin-top: 48px; }
+        .about__avatar { width: 160px; height: 160px; border-radius: 50%; overflow: visible; flex-shrink: 0; box-shadow: 0 8px 40px rgba(236, 72, 153, 0.2); position: relative; transition: transform 0.4s ease, box-shadow 0.4s ease; cursor: pointer; }
+        .about__avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+        .about__avatar:hover { transform: scale(1.08); box-shadow: 0 0 60px rgba(236, 72, 153, 0.4), 0 0 120px rgba(139, 92, 246, 0.2); }
+        .about__avatar::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid transparent; background: linear-gradient(135deg, rgba(236,72,153,0.4), rgba(139,92,246,0.4)) border-box; -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.4s ease; pointer-events: none; }
+        .about__avatar:hover::after { opacity: 1; animation: avatarRingSpin 3s linear infinite; }
+        @keyframes avatarRingSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .avatar-particle { position: absolute; width: 4px; height: 4px; border-radius: 50%; pointer-events: none; z-index: 10; animation: avatarParticleBurst 0.8s ease-out forwards; }
+        @keyframes avatarParticleBurst { 0% { transform: translate(0,0) scale(1); opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; } }
+        .about__info { flex: 1; }
+        .about__name { font-size: 1.3rem; font-weight: 700; margin-bottom: 4px; }
+        .about__role { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 20px; }
+        .about__stat { display: inline-flex; align-items: center; gap: 8px; background: var(--accent-pink-pale); padding: 8px 20px; border-radius: 100px; font-weight: 700; color: var(--accent-pink); font-size: 0.95rem; margin-bottom: 24px; }
+        .about__career { display: flex; flex-direction: column; gap: 12px; }
+        .about__career-item { display: flex; align-items: center; gap: 16px; padding: 12px 16px; background: var(--bg-secondary); border-radius: var(--radius-md); border-left: 3px solid var(--accent-pink); }
+        .about__career-years { font-family: var(--font-en); font-weight: 700; font-size: 1.1rem; color: var(--accent-pink); min-width: 50px; }
+        .about__career-content { font-size: 0.9rem; }
+        .about__career-company { font-weight: 600; color: var(--text-primary); }
+        .about__career-role { font-size: 0.82rem; color: var(--text-secondary); }
+        .about__desc { margin-top: 20px; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.8; }
+
+        /* ===== Portfolio Tabs ===== */
+        .portfolio-tabs { display: flex; gap: 8px; margin-top: 24px; margin-bottom: 32px; }
+        .portfolio-tab { padding: 8px 24px; border-radius: 100px; font-size: 0.85rem; font-weight: 600; cursor: pointer; border: 1px solid var(--border-card); background: white; color: var(--text-secondary); transition: all 0.3s ease; font-family: var(--font-jp); }
+        .portfolio-tab:hover { border-color: var(--accent-pink); color: var(--accent-pink); }
+        .portfolio-tab.active { background: var(--gradient-main); color: white; border-color: transparent; }
+        .showcase-card__badge { position: absolute; top: 8px; left: 8px; padding: 3px 10px; border-radius: 100px; font-size: 0.65rem; font-weight: 700; color: white; }
+        .showcase-card__badge--corporate { background: var(--accent-purple); }
+        .showcase-card__badge--individual { background: var(--accent-cyan); }
+        .showcase-card__badge--illustration { background: var(--accent-green); }
+        .showcase-card[data-hidden] { display: none; }
+
+        /* ===== Credentials ===== */
+        .credentials { padding: 40px 0; border-top: 1px solid var(--border-card); border-bottom: 1px solid var(--border-card); background: white; }
+        .credentials__inner { display: flex; justify-content: center; align-items: center; gap: 48px; flex-wrap: wrap; }
+        .credential-item { display: flex; align-items: center; gap: 12px; color: var(--text-secondary); font-size: 0.9rem; }
+        .credential-item__icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; background: var(--accent-pink-pale); }
+        .credential-item__text strong { color: var(--text-primary); display: block; font-size: 0.95rem; }
+        .credential-item__text span { font-size: 0.75rem; }
+
+        /* ===== Availability ===== */
+        .availability { padding: 24px 0; background: var(--gradient-soft); border-bottom: 1px solid var(--border-card); }
+        .availability__inner { text-align: center; }
+        .availability__label { font-size: 0.9rem; font-weight: 600; color: var(--text-primary); margin-bottom: 16px; }
+        .availability__slots { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .availability__slot { display: flex; align-items: center; gap: 8px; padding: 8px 20px; border-radius: 100px; font-size: 0.85rem; font-weight: 500; background: white; border: 1px solid var(--border-card); box-shadow: var(--shadow-soft); }
+        .availability__slot--open .availability__status { color: var(--accent-green); }
+        .availability__slot--open .availability__status::before { content: '●'; margin-right: 4px; font-size: 0.6rem; }
+        .availability__slot--limited .availability__status { color: var(--accent-amber); font-weight: 700; }
+        .availability__slot--limited .availability__status::before { content: '▲'; margin-right: 4px; font-size: 0.6rem; }
+        .availability__slot--closed .availability__status { color: var(--text-muted); }
+        .availability__slot--closed .availability__status::before { content: '✕'; margin-right: 4px; font-size: 0.6rem; }
+        .availability__month { color: var(--text-primary); font-weight: 600; }
+        .availability__note { margin-top: 12px; font-size: 0.75rem; color: var(--text-muted); }
+
+        /* ===== Before/After Showcase ===== */
+        .showcase { background: white; }
+        .showcase-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+        .showcase-card { background: var(--bg-secondary); border: 1px solid var(--border-card); border-radius: var(--radius-lg); overflow: hidden; transition: all 0.3s ease; }
+        .showcase-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); }
+        .showcase-card__image { width: 100%; aspect-ratio: 16/10; background: var(--gradient-soft); display: flex; align-items: center; justify-content: center; color: var(--accent-pink); font-size: 0.9rem; text-align: center; padding: 20px; position: relative; overflow: hidden; }
+        .showcase-card__image img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; padding: 0; }
+        .showcase-card__image .placeholder-label { position: absolute; top: 8px; right: 8px; background: var(--accent-pink); color: white; font-size: 0.65rem; padding: 2px 8px; border-radius: 100px; font-weight: 600; }
+        .showcase-card__info { padding: 20px; }
+        .showcase-card__title { font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; }
+        .showcase-card__desc { font-size: 0.8rem; color: var(--text-secondary); }
+
+        /* ===== Demo Reel ===== */
+        .video-section { background: var(--bg-secondary); }
+        .video-placeholder { margin-top: 48px; aspect-ratio: 16/9; max-width: 800px; margin-left: auto; margin-right: auto; background: white; border: 2px dashed var(--border-subtle); border-radius: var(--radius-lg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; color: var(--text-muted); }
+        .video-placeholder__icon { width: 64px; height: 64px; border-radius: 50%; background: var(--accent-pink-pale); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--accent-pink); }
+
+        /* ===== Strengths ===== */
+        .strengths-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 48px; }
+        .strength-card { background: white; border: 1px solid var(--border-card); border-radius: var(--radius-lg); padding: 32px; transition: all 0.3s ease; position: relative; overflow: hidden; box-shadow: var(--shadow-soft); }
+        .strength-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gradient-main); opacity: 0; transition: opacity 0.3s ease; }
+        .strength-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); }
+        .strength-card:hover::before { opacity: 1; }
+        .strength-card__icon { width: 48px; height: 48px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 20px; }
+        .strength-card__icon--pink { background: var(--accent-pink-pale); }
+        .strength-card__icon--purple { background: #ede9fe; }
+        .strength-card__icon--blue { background: #dbeafe; }
+        .strength-card__icon--cyan { background: #cffafe; }
+        .strength-card__icon--green { background: #d1fae5; }
+        .strength-card__icon--amber { background: #fef3c7; }
+        .strength-card__title { font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; }
+        .strength-card__desc { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.8; }
+        .strength-card__highlight { margin-top: 16px; padding: 12px 16px; background: var(--accent-pink-pale); border-left: 3px solid var(--accent-pink); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: 0.85rem; color: var(--text-secondary); }
+
+        /* ===== Pricing ===== */
+        .pricing-section { background: var(--bg-secondary); }
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 48px; }
+        .price-card { background: white; border: 1px solid var(--border-card); border-radius: var(--radius-xl); padding: 36px 32px; position: relative; transition: all 0.3s ease; display: flex; flex-direction: column; box-shadow: var(--shadow-soft); }
+        .price-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); }
+        .price-card--featured { border-color: var(--accent-pink); box-shadow: var(--shadow-glow); }
+        .price-card--featured::before { content: '人気'; position: absolute; top: -1px; right: 24px; background: var(--gradient-main); color: white; font-size: 0.7rem; font-weight: 700; padding: 4px 14px 6px; border-radius: 0 0 var(--radius-sm) var(--radius-sm); letter-spacing: 0.05em; }
+        .price-card__name { font-size: 0.8rem; font-weight: 600; color: var(--accent-pink); letter-spacing: 0.05em; margin-bottom: 8px; }
+        .price-card__title { font-size: 1.2rem; font-weight: 700; margin-bottom: 16px; }
+        .price-card__price { font-family: var(--font-en); margin-bottom: 24px; }
+        .price-card__price-value { font-size: 2.2rem; font-weight: 700; }
+        .price-card__price-unit { font-size: 0.85rem; color: var(--text-secondary); margin-left: 4px; }
+        .price-card__price-note { font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-jp); margin-top: 4px; }
+        .price-card__divider { height: 1px; background: var(--border-card); margin-bottom: 24px; }
+        .price-card__features { list-style: none; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+        .price-card__features li { display: flex; align-items: flex-start; gap: 10px; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+        .price-card__features li::before { content: '✓'; color: var(--accent-pink); font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+        .price-card__includes { margin-top: 24px; padding: 16px; background: var(--accent-pink-pale); border-radius: var(--radius-md); }
+        .price-card__includes-title { font-size: 0.75rem; font-weight: 600; color: var(--accent-pink); letter-spacing: 0.05em; margin-bottom: 8px; }
+        .price-card__includes-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+        .price-card__includes-list li { font-size: 0.82rem; color: var(--text-secondary); padding-left: 16px; position: relative; }
+        .price-card__includes-list li::before { content: '◎'; position: absolute; left: 0; color: var(--accent-pink); font-size: 0.7rem; }
+        .price-card__delivery { margin-top: 16px; padding: 12px 16px; background: #ede9fe; border-radius: var(--radius-sm); font-size: 0.82rem; color: var(--text-secondary); }
+        .price-card__delivery strong { color: var(--accent-purple); }
+
+        .single-services { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 32px; }
+        .single-service { background: white; border: 1px solid var(--border-card); border-radius: var(--radius-md); padding: 24px; text-align: center; transition: all 0.3s ease; box-shadow: var(--shadow-soft); }
+        .single-service:hover { transform: translateY(-2px); box-shadow: var(--shadow-card); }
+        .single-service__name { font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; }
+        .single-service__price { font-family: var(--font-en); font-size: 1.5rem; font-weight: 700; background: var(--gradient-main); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .single-service__price-suffix { font-size: 0.8rem; -webkit-text-fill-color: var(--text-secondary); }
+
+        /* ===== Options ===== */
+        .options-section { background: white; }
+        .options-table { margin-top: 48px; width: 100%; border-collapse: separate; border-spacing: 0; background: white; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border-card); box-shadow: var(--shadow-soft); }
+        .options-table thead th { padding: 16px 24px; text-align: left; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0.05em; text-transform: uppercase; background: var(--bg-secondary); border-bottom: 1px solid var(--border-card); }
+        .options-table tbody td { padding: 18px 24px; font-size: 0.9rem; border-bottom: 1px solid var(--border-card); vertical-align: top; }
+        .options-table tbody tr:last-child td { border-bottom: none; }
+        .options-table tbody tr:hover { background: var(--bg-secondary); }
+        .options-table .option-name { font-weight: 600; color: var(--text-primary); }
+        .options-table .option-price { font-family: var(--font-en); font-weight: 600; color: var(--accent-pink); white-space: nowrap; }
+        .options-table .option-note { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+
+        /* ===== Timeline ===== */
+        .timeline-list { margin-top: 48px; display: flex; flex-direction: column; max-width: 700px; }
+        .timeline-item { display: flex; align-items: stretch; gap: 24px; }
+        .timeline-item__marker { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; width: 40px; }
+        .timeline-item__dot { width: 12px; height: 12px; border-radius: 50%; background: var(--accent-pink); border: 3px solid var(--bg-primary); box-shadow: 0 0 0 2px var(--accent-pink); flex-shrink: 0; margin-top: 6px; }
+        .timeline-item__line { width: 2px; flex: 1; background: var(--border-subtle); margin: 4px 0; }
+        .timeline-item:last-child .timeline-item__line { display: none; }
+        .timeline-item__content { padding-bottom: 32px; }
+        .timeline-item__title { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+        .timeline-item__duration { font-family: var(--font-en); font-size: 0.85rem; color: var(--accent-pink); font-weight: 500; }
+        .timeline-item__express { font-size: 0.78rem; color: var(--accent-purple); margin-top: 2px; }
+
+        /* ===== FAQ ===== */
+        .faq-section { background: var(--bg-secondary); }
+        .faq-list { margin-top: 48px; display: flex; flex-direction: column; gap: 12px; max-width: 800px; }
+        .faq-item { background: white; border: 1px solid var(--border-card); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-soft); }
+        .faq-item__question { width: 100%; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; background: none; border: none; color: var(--text-primary); font-size: 0.95rem; font-weight: 600; font-family: var(--font-jp); cursor: pointer; text-align: left; transition: background 0.2s ease; }
+        .faq-item__question:hover { background: var(--bg-secondary); }
+        .faq-item__question::after { content: '+'; font-family: var(--font-en); font-size: 1.3rem; font-weight: 300; color: var(--accent-pink); transition: transform 0.3s ease; flex-shrink: 0; margin-left: 16px; }
+        .faq-item.active .faq-item__question::after { content: '−'; }
+        .faq-item__answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+        .faq-item.active .faq-item__answer { max-height: 500px; }
+        .faq-item__answer-inner { padding: 0 24px 20px; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.8; }
+
+        /* ===== CTA ===== */
+        .cta-section { text-align: center; background: var(--gradient-soft); }
+        .cta__title { font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 700; margin-bottom: 16px; }
+        .cta__desc { font-size: 1rem; color: var(--text-secondary); margin-bottom: 40px; }
+        .cta__methods { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+        .cta-method { background: white; border: 1px solid var(--border-card); border-radius: var(--radius-lg); padding: 32px; min-width: 260px; text-decoration: none; color: var(--text-primary); transition: all 0.3s ease; box-shadow: var(--shadow-soft); }
+        .cta-method:hover { border-color: var(--accent-pink); transform: translateY(-4px); box-shadow: var(--shadow-glow); }
+        .cta-method__icon { font-size: 2rem; margin-bottom: 12px; }
+        .cta-method__title { font-weight: 600; margin-bottom: 4px; }
+        .cta-method__detail { font-size: 0.85rem; color: var(--text-secondary); }
+
+        .footer { padding: 32px 0; border-top: 1px solid var(--border-card); text-align: center; }
+        .footer__text { font-size: 0.8rem; color: var(--text-muted); }
+        .footer__note { font-size: 0.75rem; color: var(--text-muted); margin-top: 8px; }
+
+        /* ===== Lightbox Modal ===== */
+        .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; background: rgba(0,0,0,0.92); backdrop-filter: blur(8px); align-items: center; justify-content: center; }
+        .lightbox.active { display: flex; animation: lbFadeIn 0.3s ease; }
+        @keyframes lbFadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .lightbox__close { position: absolute; top: 20px; right: 24px; background: none; border: none; color: white; font-size: 2rem; cursor: pointer; z-index: 10; opacity: 0.7; transition: opacity 0.2s; }
+        .lightbox__close:hover { opacity: 1; }
+        .lightbox__content { display: flex; align-items: center; gap: 24px; max-width: 90vw; max-height: 85vh; }
+        .lightbox__img { max-width: 70vw; max-height: 80vh; object-fit: contain; border-radius: 8px; user-select: none; }
+        .lightbox__nav { background: rgba(255,255,255,0.15); border: none; color: white; font-size: 2rem; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; flex-shrink: 0; }
+        .lightbox__nav:hover { background: rgba(255,255,255,0.3); }
+        .lightbox__nav:disabled { opacity: 0.2; cursor: default; }
+        .lightbox__info { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); text-align: center; color: white; }
+        .lightbox__title { font-size: 1.1rem; font-weight: 600; margin-bottom: 4px; }
+        .lightbox__counter { font-size: 0.8rem; opacity: 0.6; font-family: var(--font-en); }
+        .lightbox__placeholder { width: 60vw; height: 60vh; max-width: 800px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border-radius: 12px; border: 1px dashed rgba(255,255,255,0.2); color: rgba(255,255,255,0.5); font-size: 1.2rem; }
+        .showcase-card { cursor: pointer; }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 768px) {
+            .section { padding: 64px 0; }
+            .hero { min-height: auto; padding: 100px 0 60px; }
+            .strengths-grid, .pricing-grid { grid-template-columns: 1fr; }
+            .single-services { grid-template-columns: 1fr 1fr; }
+            .credentials__inner { gap: 24px; }
+            .options-table { display: block; overflow-x: auto; }
+            .cta__methods, .hero__cta-group { flex-direction: column; align-items: center; }
+            .showcase-grid { grid-template-columns: 1fr; }
+            .about__inner { flex-direction: column; text-align: center; gap: 32px; }
+            .about__career-item { flex-direction: column; gap: 4px; text-align: left; }
+            .portfolio-tabs { flex-wrap: wrap; justify-content: center; }
+        }
+        @media (max-width: 480px) { .single-services { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox__close" id="lb-close">✕</button>
+        <div class="lightbox__content">
+            <button class="lightbox__nav" id="lb-prev">‹</button>
+            <div id="lb-img-container">
+                <div class="lightbox__placeholder" id="lb-placeholder">📸 画像差替え後に表示されます</div>
+            </div>
+            <button class="lightbox__nav" id="lb-next">›</button>
+        </div>
+        <div class="lightbox__info">
+            <div class="lightbox__title" id="lb-title"></div>
+            <div class="lightbox__counter" id="lb-counter"></div>
+        </div>
+    </div>
+
+    <!-- ===== HERO (DARK PARTICLE / VIDEO-READY) ===== -->
+    <section class="hero" id="top">
+        <!-- パーティクル背景（動画がない間の仮演出） -->
+        <div class="hero__particles" id="particles"></div>
+        <!-- 動画が準備できたらこちらに差し替え: -->
+        <!-- <video class="hero__video-bg" autoplay muted loop playsinline poster="poster.jpg"><source src="hero_bg.mp4" type="video/mp4"></video> -->
+        <!-- <div class="hero__overlay"></div> -->
+        <div class="container">
+            <div class="hero__content">
+                <div class="hero__badge">お仕事受付中 ・ 4月〜着手可能</div>
+                <h1 class="hero__title">
+                    あなたのキャラに、<br><span class="gradient-text">命を吹き込む。</span>
+                </h1>
+                <p class="hero__description">
+                    業界歴12年のCGクリエイターが、一枚絵からLive2Dモデリング、<br class="hide-sp">
+                    映像制作・エフェクトまでワンストップで対応します。
+                </p>
+                <div class="hero__cta-group">
+                    <a href="#pricing" class="btn btn--primary">📋 料金プランを見る</a>
+                    <a href="#portfolio" class="btn btn--secondary">🎨 制作実績を見る</a>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSe8mKLfx8Y5IplEBcbJEgE9H2bsJQ4C1s2NGm_ydCw9VTT16w/viewform" target="_blank" class="btn btn--secondary">✉️ ご依頼・お問い合わせ</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== AVAILABILITY ===== -->
+    <div class="availability">
+        <div class="container">
+            <div class="availability__inner">
+                <div class="availability__label">📅 現在の受付状況</div>
+                <div class="availability__slots">
+                    <!-- ★★★ 差替えポイント④: 受付状況（月1回更新） ★★★ -->
+                    <div class="availability__slot availability__slot--limited">
+                        <span class="availability__month">4月枠</span>
+                        <span class="availability__status">残り1枠</span>
+                    </div>
+                    <div class="availability__slot availability__slot--open">
+                        <span class="availability__month">5月枠</span>
+                        <span class="availability__status">受付中</span>
+                    </div>
+                    <div class="availability__slot availability__slot--open">
+                        <span class="availability__month">6月枠</span>
+                        <span class="availability__status">受付中</span>
+                    </div>
+                </div>
+                <div class="availability__note">※特急対応は別途ご相談ください</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== CREDENTIALS ===== -->
+    <div class="credentials">
+        <div class="container">
+            <div class="credentials__inner">
+                <div class="credential-item">
+                    <div class="credential-item__icon">🏢</div>
+                    <div class="credential-item__text">
+                        <strong>カバー株式会社</strong>
+                        <span>企業案件複数実績あり</span>
+                    </div>
+                </div>
+                <div class="credential-item">
+                    <div class="credential-item__icon">🎬</div>
+                    <div class="credential-item__text">
+                        <strong>ホロライブOP動画</strong>
+                        <span>映像制作実績</span>
+                    </div>
+                </div>
+                <div class="credential-item">
+                    <div class="credential-item__icon">🤝</div>
+                    <div class="credential-item__text">
+                        <!-- TODO: 差替え → 実績が増えたら更新 -->
+                        <strong>法人・個人 多数の実績</strong>
+                        <span>継続案件あり</span>
+                    </div>
+                </div>
+                <div class="credential-item">
+                    <div class="credential-item__icon">📝</div>
+                    <div class="credential-item__text">
+                        <strong>NDA / 請求書対応可</strong>
+                        <span>法人取引対応</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== ABOUT ===== -->
+    <section class="section about-section fade-in" id="about">
+        <div class="container">
+            <span class="section-label">About</span>
+            <h2 class="section-title">クリエイター紹介</h2>
+            <div class="about__inner">
+                <div class="about__avatar">
+                    <!-- ★ avatar.png を pricing-page/ フォルダに置いてください -->
+                    <img src="avatar.png" alt="ユキナシ" onerror="this.style.display='none';this.parentElement.style.background='var(--gradient-main)';this.parentElement.innerHTML='🎨';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.style.fontSize='4rem';">
+                </div>
+                <div class="about__info">
+                    <div class="about__name">ユキナシ</div>
+                    <div class="about__role">Live2D × イラスト × 3Dキャラクターモデラー</div>
+                    <div class="about__stat">📊 業界歴 12年</div>
+                    <div class="about__career">
+                        <div class="about__career-item">
+                            <span class="about__career-years">6年</span>
+                            <div class="about__career-content">
+                                <div class="about__career-company">映像制作会社</div>
+                                <div class="about__career-role">3Dキャラクターモデリング</div>
+                            </div>
+                        </div>
+                        <div class="about__career-item">
+                            <span class="about__career-years">4年</span>
+                            <div class="about__career-content">
+                                <div class="about__career-company">ゲーム会社</div>
+                                <div class="about__career-role">3Dキャラクターモデリング</div>
+                            </div>
+                        </div>
+                        <div class="about__career-item">
+                            <span class="about__career-years">2年</span>
+                            <div class="about__career-content">
+                                <div class="about__career-company">フリーランス</div>
+                                <div class="about__career-role">イラスト・Live2D・3D制作</div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="about__desc">3Dキャラクターモデリングで培った<strong>立体構造への深い理解</strong>を活かし、奥行きのある自然な動きのLive2Dモデルを制作しています。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PORTFOLIO (TABBED) ===== -->
+    <section class="section showcase fade-in" id="portfolio">
+        <div class="container">
+            <span class="section-label">Portfolio</span>
+            <h2 class="section-title">制作実績</h2>
+            <div class="portfolio-tabs">
+                <button class="portfolio-tab active" data-filter="all">ALL</button>
+                <button class="portfolio-tab" data-filter="corporate">🏢 企業さま</button>
+                <button class="portfolio-tab" data-filter="individual">👤 個人さま</button>
+            </div>
+            <div class="showcase-grid" id="portfolio-grid">
+                <!-- 企業案件 -->
+                <div class="showcase-card" data-category="corporate">
+                    <div class="showcase-card__image">
+                        <span class="showcase-card__badge showcase-card__badge--corporate">企業</span>
+                        <span class="placeholder-label">後日差替え</span>
+                        📸 企業案件①
+                    </div>
+                    <div class="showcase-card__info">
+                        <div class="showcase-card__title">企業案件①</div>
+                        <div class="showcase-card__desc">VTuberモデル / フルセット</div>
+                    </div>
+                </div>
+                <div class="showcase-card" data-category="corporate">
+                    <div class="showcase-card__image">
+                        <span class="showcase-card__badge showcase-card__badge--corporate">企業</span>
+                        <span class="placeholder-label">後日差替え</span>
+                        📸 企業案件②
+                    </div>
+                    <div class="showcase-card__info">
+                        <div class="showcase-card__title">企業案件②</div>
+                        <div class="showcase-card__desc">映像制作 / OP動画</div>
+                    </div>
+                </div>
+                <div class="showcase-card" data-category="corporate">
+                    <div class="showcase-card__image">
+                        <span class="showcase-card__badge showcase-card__badge--corporate">企業</span>
+                        <span class="placeholder-label">後日差替え</span>
+                        📸 企業案件③
+                    </div>
+                    <div class="showcase-card__info">
+                        <div class="showcase-card__title">企業案件③</div>
+                        <div class="showcase-card__desc">Live2Dモデリング</div>
+                    </div>
+                </div>
+                <!-- 個人案件 -->
+                <div class="showcase-card" data-category="individual">
+                    <div class="showcase-card__image">
+                        <span class="showcase-card__badge showcase-card__badge--individual">個人</span>
+                        <span class="placeholder-label">後日差替え</span>
+                        📸 個人案件①
+                    </div>
+                    <div class="showcase-card__info">
+                        <div class="showcase-card__title">個人案件①</div>
+                        <div class="showcase-card__desc">VTuberモデル / モデリングのみ</div>
+                    </div>
+                </div>
+                <div class="showcase-card" data-category="individual">
+                    <div class="showcase-card__image">
+                        <span class="showcase-card__badge showcase-card__badge--individual">個人</span>
+                        <span class="placeholder-label">後日差替え</span>
+                        📸 個人案件②
+                    </div>
+                    <div class="showcase-card__info">
+                        <div class="showcase-card__title">個人案件②</div>
+                        <div class="showcase-card__desc">パーツ分け+モデリング / 表情差分多数</div>
+                    </div>
+                </div>
+                <div class="showcase-card" data-category="individual">
+                    <div class="showcase-card__image">
+                        <span class="showcase-card__badge showcase-card__badge--individual">個人</span>
+                        <span class="placeholder-label">後日差替え</span>
+                        📸 個人案件③
+                    </div>
+                    <div class="showcase-card__info">
+                        <div class="showcase-card__title">個人案件③</div>
+                        <div class="showcase-card__desc">フルセット / ギミック付き</div>
+                    </div>
+                </div>
+                <div class="showcase-card" data-category="individual">
+                    <div class="showcase-card__image">
+                        <span class="showcase-card__badge showcase-card__badge--individual">個人</span>
+                        <span class="placeholder-label">後日差替え</span>
+                        📸 個人案件④
+                    </div>
+                    <div class="showcase-card__info">
+                        <div class="showcase-card__title">個人案件④</div>
+                        <div class="showcase-card__desc">VTuberモデル</div>
+                    </div>
+                </div>
+                <div class="showcase-card" data-category="individual">
+                    <div class="showcase-card__image">
+                        <span class="showcase-card__badge showcase-card__badge--individual">個人</span>
+                        <span class="placeholder-label">後日差替え</span>
+                        📸 個人案件⑤
+                    </div>
+                    <div class="showcase-card__info">
+                        <div class="showcase-card__title">個人案件⑤</div>
+                        <div class="showcase-card__desc">モデリング+エフェクト</div>
+                    </div>
+                </div>
+                <div class="showcase-card" data-category="individual">
+                    <div class="showcase-card__image">
+                        <span class="showcase-card__badge showcase-card__badge--individual">個人</span>
+                        <span class="placeholder-label">後日差替え</span>
+                        📸 個人案件⑥
+                    </div>
+                    <div class="showcase-card__info">
+                        <div class="showcase-card__title">個人案件⑥</div>
+                        <div class="showcase-card__desc">パーツ分けのみ</div>
+                    </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ILLUSTRATION GALLERY ===== -->
+    <section class="section showcase fade-in" id="gallery" style="background: var(--bg-secondary);">
+        <div class="container">
+            <span class="section-label">Gallery</span>
+            <h2 class="section-title">イラスト作品</h2>
+            <p class="section-subtitle">
+                VTuberデザイン・オリジナル・ファンアートなど。
+            </p>
+            <div class="showcase-grid">
+                <!-- GALLERY_START -->
+                <div class="showcase-card" data-images="gallery/web/Vtuber_立ち絵/01_くらげモチーフの子/立ち絵透過.webp">
+                    <div class="showcase-card__image">
+                        <span class="showcase-card__badge" style="background: var(--accent-purple);">VTuberデザイン</span>
+                        <img src="gallery/web/Vtuber_立ち絵/01_くらげモチーフの子/thumb.webp" alt="くらげモチーフの子" loading="lazy">
+                    </div>
+                    <div class="showcase-card__info">
+                        <div class="showcase-card__title">くらげモチーフの子</div>
+                        <div class="showcase-card__desc">VTuberモデル用イラスト</div>
+                    </div>
+                </div>
+                <!-- GALLERY_END -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== DEMO REEL ===== -->
+    <section class="section video-section fade-in" id="demo">
+        <div class="container">
+            <span class="section-label">Demo Reel</span>
+            <h2 class="section-title">デモリール</h2>
+            <!-- ★★★ 差替えポイント②: デモリール動画 ★★★ -->
+            <div class="video-placeholder">
+                <div class="video-placeholder__icon">▶</div>
+                <p style="font-size:0.9rem;">【後日差替え】デモリール動画</p>
+                <p style="font-size:0.75rem; color:var(--text-muted);">YouTube / X の動画埋め込み（30秒〜1分）</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== STRENGTHS ===== -->
+    <section class="section fade-in" id="strengths">
+        <div class="container">
+            <span class="section-label">Why Choose Me</span>
+            <h2 class="section-title"><span class="gradient-text">6つの強み</span></h2>
+            <div class="strengths-grid">
+                <div class="strength-card">
+                    <div class="strength-card__icon strength-card__icon--pink">🎨</div>
+                    <h3 class="strength-card__title">一枚絵からでも対応可能</h3>
+                    <p class="strength-card__desc">Live2D用にイラストを描き直す必要はありません。お手持ちの一枚絵から、パーツ分け・書き足しを行い、Live2Dモデルに仕上げます。</p>
+                </div>
+                <div class="strength-card">
+                    <div class="strength-card__icon strength-card__icon--purple">🎬</div>
+                    <h3 class="strength-card__title">映像制作までワンストップ</h3>
+                    <p class="strength-card__desc">Live2Dモデリングだけでなく、After Effectsを用いたOP動画制作、エフェクト追加まで一貫して対応可能。</p>
+                    <div class="strength-card__highlight">ホロライブプロダクション 響咲リオナ様のOP動画を担当</div>
+                </div>
+                <div class="strength-card">
+                    <div class="strength-card__icon strength-card__icon--cyan">✏️</div>
+                    <h3 class="strength-card__title">表情差分のラフもこちらで作成可能</h3>
+                    <p class="strength-card__desc">お渡しいただいたPSDを元に、こちらで表情差分のラフを作成可能。イラストレーター様との橋渡しもスムーズに行えます。</p>
+                </div>
+                <div class="strength-card">
+                    <div class="strength-card__icon strength-card__icon--blue">🔧</div>
+                    <h3 class="strength-card__title">積極的な提案 &amp; レタッチ対応</h3>
+                    <p class="strength-card__desc">指示通りに動かすだけでなく、モデラー視点で「より良くなる」ための修正・提案を積極的に行います。</p>
+                </div>
+                <div class="strength-card">
+                    <div class="strength-card__icon strength-card__icon--green">💎</div>
+                    <h3 class="strength-card__title">複雑なエフェクト &amp; モーション</h3>
+                    <p class="strength-card__desc">大量の表情差分、複雑なエフェクト・モーションにも対応可能。キャラクターの魅力を最大限に引き出す動きを実現します。</p>
+                </div>
+                <div class="strength-card">
+                    <div class="strength-card__icon strength-card__icon--amber">🏢</div>
+                    <h3 class="strength-card__title">企業案件の実務対応力</h3>
+                    <p class="strength-card__desc">カバー株式会社様をはじめとする企業案件において、NDA・請求書対応・納品フローなどの実務を滞りなく対応。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PRICING ===== -->
+    <section class="section pricing-section fade-in" id="pricing">
+        <div class="container">
+            <span class="section-label">Pricing</span>
+            <h2 class="section-title">料金プラン</h2>
+            <p class="section-subtitle">
+                すべてのプランに、笑顔・ウインク・口パク・眉の可動・アイドリングモーション＋お好みのベース表情4種が含まれます。
+            </p>
+            <div class="pricing-grid">
+                <div class="price-card">
+                    <div class="price-card__name">MODELING</div>
+                    <div class="price-card__title">Live2Dモデリングのみ</div>
+                    <div class="price-card__price">
+                        <span class="price-card__price-value">¥170,000</span>
+                        <span class="price-card__price-unit">〜（税込）</span>
+                        <div class="price-card__price-note">パーツ分け済みPSDをお持ちの方</div>
+                    </div>
+                    <div class="price-card__divider"></div>
+                    <ul class="price-card__features">
+                        <li>Live2Dモデリング・セットアップ</li>
+                        <li>各工程2回まで無償修正</li>
+                        <li>モデラー視点の最適化提案</li>
+                    </ul>
+                    <div class="price-card__includes">
+                        <div class="price-card__includes-title">基本セットに含まれるもの</div>
+                        <ul class="price-card__includes-list">
+                            <li>デフォルト：笑顔・ウインク・口パク・眉の可動</li>
+                            <li>ベース表情4種（Bランクは無料 / Aランクは+¥3,000〜）</li>
+                            <li>アイドリングモーション（呼吸・まばたき・髪揺れ）</li>
+                        </ul>
+                    </div>
+                    <div class="price-card__delivery">通常 <strong>約1.5ヶ月</strong> ｜ 特急 3週間（+30%）</div>
+                </div>
+
+                <div class="price-card price-card--featured">
+                    <div class="price-card__name">STANDARD SET</div>
+                    <div class="price-card__title">パーツ分け + モデリング</div>
+                    <div class="price-card__price">
+                        <span class="price-card__price-value">¥230,000</span>
+                        <span class="price-card__price-unit">〜（税込）</span>
+                        <div class="price-card__price-note">一枚絵からでもOK！書き足し対応</div>
+                    </div>
+                    <div class="price-card__divider"></div>
+                    <ul class="price-card__features">
+                        <li>一枚絵からのパーツ分け・書き足し</li>
+                        <li>Live2Dモデリング・セットアップ</li>
+                        <li>PSD問題の修正・カバー対応</li>
+                        <li>各工程2回まで無償修正</li>
+                        <li>モデラー視点の最適化提案</li>
+                    </ul>
+                    <div class="price-card__includes">
+                        <div class="price-card__includes-title">基本セットに含まれるもの</div>
+                        <ul class="price-card__includes-list">
+                            <li>デフォルト：笑顔・ウインク・口パク・眉の可動</li>
+                            <li>ベース表情4種（Bランクは無料 / Aランクは+¥3,000〜）</li>
+                            <li>アイドリングモーション（呼吸・まばたき・髪揺れ）</li>
+                        </ul>
+                    </div>
+                    <div class="price-card__delivery">通常 <strong>約2ヶ月</strong> ｜ 特急 4週間（+40%）</div>
+                </div>
+
+                <div class="price-card">
+                    <div class="price-card__name">FULL SET</div>
+                    <div class="price-card__title">イラスト + パーツ分け + Live2D</div>
+                    <div class="price-card__price">
+                        <span class="price-card__price-value">¥350,000</span>
+                        <span class="price-card__price-unit">〜（税込）</span>
+                        <div class="price-card__price-note">おまかせフルパッケージ</div>
+                    </div>
+                    <div class="price-card__divider"></div>
+                    <ul class="price-card__features">
+                        <li>キャラクターイラスト制作</li>
+                        <li>Live2D用パーツ分け・書き足し</li>
+                        <li>Live2Dモデリング・セットアップ</li>
+                        <li>表情差分のラフ作成対応</li>
+                        <li>各工程2回まで無償修正</li>
+                        <li>モデラー視点の最適化提案</li>
+                    </ul>
+                    <div class="price-card__includes">
+                        <div class="price-card__includes-title">基本セットに含まれるもの</div>
+                        <ul class="price-card__includes-list">
+                            <li>デフォルト：笑顔・ウインク・口パク・眉の可動</li>
+                            <li>ベース表情4種（通常は無料 / 特殊は+¥3,000〜）</li>
+                            <li>アイドリングモーション（呼吸・まばたき・髪揺れ）</li>
+                        </ul>
+                    </div>
+                    <div class="price-card__delivery">通常 <strong>約3ヶ月</strong> ｜ 特急 1.5ヶ月（+50%）</div>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 64px; font-size: 1.1rem; font-weight: 600; margin-bottom: 8px;">個別サービス</h3>
+            <div class="single-services">
+                <div class="single-service">
+                    <div class="single-service__name">パーツ分けのみ</div>
+                    <div class="single-service__price">¥60,000<span class="single-service__price-suffix">〜</span></div>
+                </div>
+                <div class="single-service">
+                    <div class="single-service__name">イラスト制作のみ</div>
+                    <div class="single-service__price">¥80,000<span class="single-service__price-suffix">〜</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== OPTIONS ===== -->
+    <section class="section options-section fade-in" id="options">
+        <div class="container">
+            <span class="section-label">Options</span>
+            <h2 class="section-title">オプション料金</h2>
+            <p class="section-subtitle">基本プランにオプションを追加して、より豊かな表現を実現できます。</p>
+            <table class="options-table">
+                <thead><tr><th>オプション</th><th>料金（税込）</th><th>備考</th></tr></thead>
+                <tbody>
+                    <tr><td colspan="3" style="font-weight:700; color:var(--accent-pink); font-size:0.8rem; letter-spacing:0.05em;">▼ 表情差分（ベース4種を超える追加分）</td></tr>
+                    <tr><td class="option-name">通常表情 追加</td><td class="option-price">+¥5,000 / 1種</td><td>照れ・青ざめ・怒り・悲しみ・泣き・驚き・ジト目・ドヤ顔・困り顔・キラキラ目・半目・涙目・真顔・にやり・ムッ・白目<div class="option-note">※ベース４種に選んだ場合は無料</div></td></tr>
+                    <tr><td class="option-name">特殊表情 追加</td><td class="option-price">+¥8,000〜 / 1種</td><td>舌出し・頬ぷく・オメガ口・よだれ顔・ハート目・ぐるぐる目・★目・猫口（ω）・><目<div class="option-note">※ベース４種に選んだ場合は差額+¥3,000〜のみ</div></td></tr>
+                    <tr><td class="option-name">表情ラフ作成（当方で作画）</td><td class="option-price">+¥3,000 / 1種</td><td>こちらで表情差分のラフを作成します</td></tr>
+                    <tr><td colspan="3" style="font-weight:700; color:var(--accent-pink); font-size:0.8rem; letter-spacing:0.05em;">▼ パーツ差分</td></tr>
+                    <tr><td class="option-name">髪型差分</td><td class="option-price">+¥20,000〜</td><td>物理演算の再設定込み</td></tr>
+                    <tr><td class="option-name">服の脱着差分</td><td class="option-price">+¥15,000〜</td><td>上着のオン・オフなど</td></tr>
+                    <tr><td class="option-name">新衣装モデリング</td><td class="option-price">個別お見積もり</td><td>全身の衣装変更（顔以外の再構築）<div class="option-note">※当方制作のモデルは割引あり。他者制作モデルはファイル解析費が加算されます</div></td></tr>
+                    <tr><td class="option-name">小物差分（メガネ・帽子等）</td><td class="option-price">+¥5,000〜</td><td>頭部追従設定込み</td></tr>
+                    <tr><td class="option-name">ケモ耳・しっぽ</td><td class="option-price">+¥5,000〜</td><td>物理演算付き</td></tr>
+                    <tr><td colspan="3" style="font-weight:700; color:var(--accent-pink); font-size:0.8rem; letter-spacing:0.05em;">▼ モーション</td></tr>
+                    <tr><td class="option-name">アクションモーション</td><td class="option-price">¥5,000〜（個別見積）</td><td>手振り・ポーズ変更・ギミック等<div class="option-note">※追加パーツの作画が必要な場合は作画費が別途発生</div></td></tr>
+                    <tr><td colspan="3" style="font-weight:700; color:var(--accent-pink); font-size:0.8rem; letter-spacing:0.05em;">▼ 権利・納期</td></tr>
+                    <tr><td class="option-name">著作権譲渡（Live2Dのみ）</td><td class="option-price">+¥50,000〜</td><td></td></tr>
+                    <tr><td class="option-name">著作権譲渡（イラスト+Live2D）</td><td class="option-price">+¥150,000〜</td><td></td></tr>
+                    <tr><td class="option-name">cmo3（編集データ）譲渡</td><td class="option-price">ベース×50%</td><td></td></tr>
+                    <tr><td class="option-name">パーツ分けPSD譲渡</td><td class="option-price">+¥30,000〜</td><td>当方がパーツ分けしたPSDの引渡し<div class="option-note">※モデリングのみプラン（お客様持込PSD）の場合は不要</div></td></tr>
+                    <tr><td class="option-name">制作データ一式（cmo3 + PSD）</td><td class="option-price">ベース×60〜70%</td><td>フルセット=×70% / パーツ分け+モデリング=×60%</td></tr>
+                    <tr><td class="option-name">実績公開不可</td><td class="option-price">+¥50,000</td><td>ポートフォリオ掲載不可</td></tr>
+                    <tr><td class="option-name">特急納品</td><td class="option-price">ベース×30〜50%</td><td>プランにより変動<div class="option-note">モデリング+30% / パーツ分け+モデリング+40% / フルセット+50%</div></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ===== TIMELINE ===== -->
+    <section class="section fade-in" id="timeline" style="background: var(--bg-secondary);">
+        <div class="container">
+            <span class="section-label">Timeline</span>
+            <h2 class="section-title">制作期間の目安</h2>
+            <p class="section-subtitle" style="margin-bottom: 8px;">※現在の受付状況により変動します。お気軽にお問い合わせください。</p>
+            <div class="timeline-list">
+                <div class="timeline-item">
+                    <div class="timeline-item__marker"><div class="timeline-item__dot"></div><div class="timeline-item__line"></div></div>
+                    <div class="timeline-item__content">
+                        <div class="timeline-item__title">モデリングのみ</div>
+                        <div class="timeline-item__duration">通常 約1.5ヶ月</div>
+                        <div class="timeline-item__express">特急 3週間（+30%）</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-item__marker"><div class="timeline-item__dot"></div><div class="timeline-item__line"></div></div>
+                    <div class="timeline-item__content">
+                        <div class="timeline-item__title">パーツ分け + モデリング</div>
+                        <div class="timeline-item__duration">通常 約2ヶ月</div>
+                        <div class="timeline-item__express">特急 4週間（+40%）</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-item__marker"><div class="timeline-item__dot"></div><div class="timeline-item__line"></div></div>
+                    <div class="timeline-item__content">
+                        <div class="timeline-item__title">フルセット（イラスト + モデリング）</div>
+                        <div class="timeline-item__duration">通常 約3ヶ月</div>
+                        <div class="timeline-item__express">特急 1.5ヶ月（+50%）</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section class="section faq-section fade-in" id="faq">
+        <div class="container">
+            <span class="section-label">FAQ</span>
+            <h2 class="section-title">よくあるご質問</h2>
+            <div class="faq-list">
+                <div class="faq-item"><button class="faq-item__question">修正はどこまで対応してもらえますか？</button><div class="faq-item__answer"><div class="faq-item__answer-inner">各工程で2回まで無償で修正対応いたします。3回目以降は¥5,000/回の追加料金が発生します。なお「仕様変更」（当初の要件にない追加要望）は修正回数に含まれず、1回目から別途お見積もりとなります。</div></div></div>
+                <div class="faq-item"><button class="faq-item__question">一枚絵しかないのですが、依頼できますか？</button><div class="faq-item__answer"><div class="faq-item__answer-inner">はい、もちろんです！一枚絵からのパーツ分け・書き足しに対応しています。「パーツ分け + モデリング」プランがおすすめです。<br><br>⚠️ 他の絵師様に描いていただいたイラストを持ち込む場合は、パーツ分け・表情差分ラフ作成に伴うイラスト加工について、<strong>担当絵師様の許諾</strong>を事前にお取りください。</div></div></div>
+                <div class="faq-item"><button class="faq-item__question">表情差分はどのように決めますか？</button><div class="faq-item__answer"><div class="faq-item__answer-inner">表情は「通常」・「特殊」の2ランクからお好みでお選びいただけます。ベース4種に通常表情を選べば追加料金なし、特殊表情を選んだ場合は差額（+¥3,000〜）のみ追加となります。<br><br>フルセットプラン（イラストから制作）の場合は表情ラフも無料で含まれます。持ち込みの場合はこちらでラフ作成を承るか（+¥3,000/個・絵師様の許諾要）、担当絵師様に各表情を描いていただくかお選びいただけます。</div></div></div>
+                <div class="faq-item"><button class="faq-item__question">「手を振る」「バイバイ」のモーションは追加できますか？</button><div class="faq-item__answer"><div class="faq-item__answer-inner">はい、対応可能です。アクションモーション（手振り・ポーズ変更・ギミック等）は内容に応じて個別にお見積もりいたします（¥5,000〜）。追加パーツの作画が必要な場合は作画費が別途発生します。</div></div></div>
+                <div class="faq-item"><button class="faq-item__question">お支払い方法を教えてください</button><div class="faq-item__answer"><div class="faq-item__answer-inner">銀行振込でのお支払いとなります。着手前に頭金50%、納品時に残金50%の2回払いが基本です。¥200,000以上の案件は分割払いにも対応しております（残金を最大3回分割、手数料+10%）。</div></div></div>
+                <div class="faq-item"><button class="faq-item__question">初めての依頼で不安なのですが…</button><div class="faq-item__answer"><div class="faq-item__answer-inner">初めての方でも安心してご依頼いただけるよう、工程ごとに丁寧にご説明いたします。専門用語は噛み砕いてお伝えしますので、分からないことがあればお気軽にご質問ください。お見積もりの段階では費用は一切発生しません。</div></div></div>
+                <div class="faq-item"><button class="faq-item__question">企業からの依頼にも対応していますか？</button><div class="faq-item__answer"><div class="faq-item__answer-inner">はい、カバー株式会社様をはじめとする企業案件の実績がございます。NDA（機密保持契約）の締結、請求書対応など、法人取引に必要な実務にも対応可能です。</div></div></div>
+                <div class="faq-item"><button class="faq-item__question">著作権はどうなりますか？グッズは作れますか？</button><div class="faq-item__answer"><div class="faq-item__answer-inner">著作権は原則として制作者（ユキナシ）に帰属しますが、<strong>配信・動画・SNS・グッズ展開</strong>などVTuber活動に必要な利用はすべて自由に行えます（グッズ化の際は事前にご連絡ください）。モデルデータの転売・第三者への譲渡のみお断りしています。<br><br>企業様向けには著作権譲渡オプションもご用意しております。詳しくは<a href="terms.html" style="color:#ec4899;text-decoration:underline;">利用規約</a>をご確認ください。</div></div></div>
+                <div class="faq-item"><button class="faq-item__question">R-18（成人向け）コンテンツでの利用はできますか？</button><div class="faq-item__answer"><div class="faq-item__answer-inner">申し訳ございませんが、R-18コンテンツでのモデル使用は<strong>お断りしております</strong>。該当する利用が判明した場合、利用権を停止させていただく場合がございます。</div></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="section cta-section fade-in" id="contact">
+        <div class="container">
+            <h2 class="cta__title">お気軽にご相談ください</h2>
+            <p class="cta__desc">お見積もり・ご相談は無料です。まずはお気軽にお声がけください。</p>
+            <div class="cta__methods">
+                <!-- ★★★ 差替えポイント③: GoogleフォームURL ★★★ -->
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSe8mKLfx8Y5IplEBcbJEgE9H2bsJQ4C1s2NGm_ydCw9VTT16w/viewform" target="_blank" class="cta-method" id="form-link">
+                    <div class="cta-method__icon">📋</div>
+                    <div class="cta-method__title">ご依頼フォーム</div>
+                    <div class="cta-method__detail">こちらからお気軽にどうぞ</div>
+                </a>
+                <a href="https://x.com/yukinashi_gg" target="_blank" class="cta-method">
+                    <div class="cta-method__icon">💬</div>
+                    <div class="cta-method__title">X（Twitter）DM</div>
+                    <div class="cta-method__detail">@yukinashi_gg</div>
+                </a>
+                <a href="mailto:yukinashi.contact@gmail.com" class="cta-method">
+                    <div class="cta-method__icon">✉️</div>
+                    <div class="cta-method__title">メール</div>
+                    <div class="cta-method__detail">yukinashi.contact@gmail.com</div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__text">© 2026 ユキナシ（イラスト × Live2D）</p>
+            <p class="footer__note">掲載の料金はすべて最低価格です。デザインの複雑さ・パーツ数により変動します。</p>
+            <p class="footer__links"><a href="terms.html" style="color:rgba(255,255,255,0.5);text-decoration:none;font-size:0.85rem;transition:color 0.3s;">利用規約</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // ===== Particle Animation =====
+        (function() {
+            const container = document.getElementById('particles');
+            if (!container) return;
+            const count = 50;
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'hero__particle';
+                const size = Math.random() * 3 + 1;
+                const x = Math.random() * 100;
+                const delay = Math.random() * 8;
+                const duration = Math.random() * 6 + 6;
+                const hue = Math.random() > 0.5 ? '236, 72, 153' : '139, 92, 246';
+                const opacity = Math.random() * 0.5 + 0.3;
+                p.style.cssText = `width:${size}px;height:${size}px;left:${x}%;bottom:-10px;background:rgba(${hue},${opacity});animation-delay:${delay}s;animation-duration:${duration}s;box-shadow:0 0 ${size*3}px rgba(${hue},${opacity*0.5});`;
+                container.appendChild(p);
+            }
+        })();
+
+        // ===== Portfolio Tab Filtering =====
+        document.querySelectorAll('.portfolio-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.portfolio-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                const filter = tab.dataset.filter;
+                document.querySelectorAll('#portfolio-grid .showcase-card').forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.removeAttribute('data-hidden');
+                        card.style.display = '';
+                    } else {
+                        card.setAttribute('data-hidden', '');
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // ===== Avatar Hover Particles =====
+        (function() {
+            const avatar = document.querySelector('.about__avatar');
+            if (!avatar) return;
+            let throttle = false;
+            avatar.addEventListener('mouseenter', () => {
+                if (throttle) return;
+                throttle = true;
+                setTimeout(() => throttle = false, 600);
+                for (let i = 0; i < 12; i++) {
+                    const p = document.createElement('div');
+                    p.className = 'avatar-particle';
+                    const angle = (Math.PI * 2 / 12) * i + (Math.random() - 0.5) * 0.5;
+                    const dist = 60 + Math.random() * 40;
+                    const tx = Math.cos(angle) * dist;
+                    const ty = Math.sin(angle) * dist;
+                    const hue = Math.random() > 0.5 ? '236, 72, 153' : '139, 92, 246';
+                    const size = 3 + Math.random() * 4;
+                    p.style.cssText = `width:${size}px;height:${size}px;left:50%;top:50%;background:rgba(${hue},0.8);box-shadow:0 0 ${size*2}px rgba(${hue},0.6);--tx:${tx}px;--ty:${ty}px;`;
+                    avatar.appendChild(p);
+                    setTimeout(() => p.remove(), 800);
+                }
+            });
+        })();
+
+        // ===== Button Hover Sparkle Particles =====
+        document.querySelectorAll('.btn--primary').forEach(btn => {
+            let sparkleThrottle = 0;
+            btn.addEventListener('mousemove', (e) => {
+                const now = Date.now();
+                if (now - sparkleThrottle < 50) return;
+                sparkleThrottle = now;
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const s = document.createElement('div');
+                s.className = 'btn-sparkle';
+                const size = 2 + Math.random() * 4;
+                s.style.cssText = `width:${size}px;height:${size}px;left:${x}px;top:${y}px;`;
+                btn.appendChild(s);
+                setTimeout(() => s.remove(), 600);
+            });
+        });
+
+        // ===== Lightbox =====
+        (function() {
+            const lb = document.getElementById('lightbox');
+            const lbTitle = document.getElementById('lb-title');
+            const lbCounter = document.getElementById('lb-counter');
+            const lbPrev = document.getElementById('lb-prev');
+            const lbNext = document.getElementById('lb-next');
+            const lbContainer = document.getElementById('lb-img-container');
+            const lbPlaceholder = document.getElementById('lb-placeholder');
+            let currentImages = [];
+            let currentIndex = 0;
+
+            function showImage() {
+                if (currentImages.length === 0 || currentImages[0] === '') {
+                    lbPlaceholder.style.display = 'flex';
+                    const existingImg = lbContainer.querySelector('.lightbox__img');
+                    if (existingImg) existingImg.remove();
+                } else {
+                    lbPlaceholder.style.display = 'none';
+                    let img = lbContainer.querySelector('.lightbox__img');
+                    if (!img) {
+                        img = document.createElement('img');
+                        img.className = 'lightbox__img';
+                        lbContainer.appendChild(img);
+                    }
+                    img.src = currentImages[currentIndex];
+                }
+                lbCounter.textContent = currentImages.length > 1 ? `${currentIndex + 1} / ${currentImages.length}` : '';
+                lbPrev.disabled = currentIndex === 0;
+                lbNext.disabled = currentIndex >= currentImages.length - 1;
+            }
+
+            document.querySelectorAll('.showcase-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const images = (card.dataset.images || '').split(',').map(s => s.trim()).filter(Boolean);
+                    currentImages = images.length > 0 ? images : [''];
+                    currentIndex = 0;
+                    const titleEl = card.querySelector('.showcase-card__title');
+                    lbTitle.textContent = titleEl ? titleEl.textContent : '';
+                    showImage();
+                    lb.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+
+            lbPrev.addEventListener('click', (e) => { e.stopPropagation(); if (currentIndex > 0) { currentIndex--; showImage(); } });
+            lbNext.addEventListener('click', (e) => { e.stopPropagation(); if (currentIndex < currentImages.length - 1) { currentIndex++; showImage(); } });
+            document.getElementById('lb-close').addEventListener('click', closeLb);
+            lb.addEventListener('click', (e) => { if (e.target === lb) closeLb(); });
+            document.addEventListener('keydown', (e) => {
+                if (!lb.classList.contains('active')) return;
+                if (e.key === 'Escape') closeLb();
+                if (e.key === 'ArrowLeft' && currentIndex > 0) { currentIndex--; showImage(); }
+                if (e.key === 'ArrowRight' && currentIndex < currentImages.length - 1) { currentIndex++; showImage(); }
+            });
+            function closeLb() { lb.classList.remove('active'); document.body.style.overflow = ''; }
+        })();
+
+        // ===== FAQ Accordion =====
+        document.querySelectorAll('.faq-item__question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const isActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                if (!isActive) item.classList.add('active');
+            });
+        });
+
+        // ===== Scroll Fade-in =====
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // ===== Smooth Scroll =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>
