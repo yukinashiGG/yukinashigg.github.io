@@ -3,6 +3,7 @@ node_modules/
 
 # Large binary files
 *.psd
+gallery/_Source/
 
 # OS files
 .DS_Store
