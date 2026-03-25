@@ -147,8 +147,11 @@
         /* ===== Before/After Showcase ===== */
         .showcase { background: white; }
         .showcase-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
-        .showcase-card { background: var(--bg-secondary); border: 1px solid var(--border-card); border-radius: var(--radius-lg); overflow: hidden; transition: all 0.3s ease; }
-        .showcase-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); }
+        .showcase-card { background: var(--bg-secondary); border: 1px solid var(--border-card); border-radius: var(--radius-lg); overflow: hidden; transition: all 0.4s ease; position: relative; }
+        .showcase-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(236,72,153,0.08), rgba(139,92,246,0.12)); opacity: 0; transition: opacity 0.4s ease; z-index: 0; border-radius: var(--radius-lg); }
+        .showcase-card:hover::before { opacity: 1; }
+        .showcase-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); border-color: rgba(236,72,153,0.3); }
+        .showcase-card > * { position: relative; z-index: 1; }
         .showcase-card__image { width: 100%; aspect-ratio: 16/10; background: var(--gradient-soft); display: flex; align-items: center; justify-content: center; color: var(--accent-pink); font-size: 0.9rem; text-align: center; padding: 20px; position: relative; overflow: hidden; }
         .showcase-card__image img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; padding: 0; }
         .showcase-card__image .placeholder-label { position: absolute; top: 8px; right: 8px; background: var(--accent-pink); color: white; font-size: 0.65rem; padding: 2px 8px; border-radius: 100px; font-weight: 600; }
