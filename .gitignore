@@ -22,3 +22,19 @@ __pycache__/
 
 # Build script (not needed for site)
 build_gallery.py
+
+# Archive & tools
+_archive/
+test_form_send.py
+テスト送信.bat
+
+# Large media & work files
+videos/
+Source/
+背景テンプレート/
+showcase_v*.html
+showcase_mockups.html
+*.svg
+*.ai
+*.mp3
+*.mp4

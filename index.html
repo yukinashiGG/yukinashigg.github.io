@@ -8,6 +8,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9TESHKNJZ6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-9TESHKNJZ6');
+    </script>
     <style>
         :root {
             --bg-primary: #fefcfd;
@@ -492,11 +500,11 @@
                     <div class="showcase-card__image">
                         <span class="showcase-card__badge showcase-card__badge--corporate">企業</span>
                         <span class="placeholder-label">後日差替え</span>
-                        📸 企業案件①
+                        📸 カバー株式会社
                     </div>
                     <div class="showcase-card__info">
-                        <div class="showcase-card__title">企業案件①</div>
-                        <div class="showcase-card__desc">VTuberモデル / フルセット</div>
+                        <div class="showcase-card__title">カバー株式会社</div>
+                        <div class="showcase-card__desc">hololive DEV_IS FLOW GLOW イサキリオナ様 OP動画のLive2Dモデル・映像制作</div>
                     </div>
                 </div>
                 <div class="showcase-card" data-category="corporate">
@@ -937,17 +945,17 @@
             <p class="cta__desc">お見積もり・ご相談は無料です。まずはお気軽にお声がけください。</p>
             <div class="cta__methods">
                 <!-- ★★★ 差替えポイント③: GoogleフォームURL ★★★ -->
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSe8mKLfx8Y5IplEBcbJEgE9H2bsJQ4C1s2NGm_ydCw9VTT16w/viewform" target="_blank" class="cta-method" id="form-link">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSe8mKLfx8Y5IplEBcbJEgE9H2bsJQ4C1s2NGm_ydCw9VTT16w/viewform" target="_blank" class="cta-method" id="form-link" onclick="gtag('event','click_inquiry_form',{method:'google_form'})">
                     <div class="cta-method__icon">📋</div>
                     <div class="cta-method__title">ご依頼フォーム</div>
                     <div class="cta-method__detail">こちらからお気軽にどうぞ</div>
                 </a>
-                <a href="https://x.com/yukinashi_gg" target="_blank" class="cta-method">
+                <a href="https://x.com/yukinashi_gg" target="_blank" class="cta-method" onclick="gtag('event','click_inquiry_form',{method:'x_dm'})">
                     <div class="cta-method__icon">💬</div>
                     <div class="cta-method__title">X（Twitter）DM</div>
                     <div class="cta-method__detail">@yukinashi_gg</div>
                 </a>
-                <div class="cta-method" id="email-copy" style="cursor:pointer;position:relative;" onclick="navigator.clipboard.writeText('yukinashi.contact@gmail.com').then(()=>{const t=document.getElementById('copy-toast');t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)';setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(-50%) translateY(8px)';},2000);})">
+                <div class="cta-method" id="email-copy" style="cursor:pointer;position:relative;" onclick="gtag('event','click_inquiry_form',{method:'email_copy'});navigator.clipboard.writeText('yukinashi.contact@gmail.com').then(()=>{const t=document.getElementById('copy-toast');t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)';setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(-50%) translateY(8px)';},2000);})">
                     <div class="cta-method__icon">✉️</div>
                     <div class="cta-method__title">メール</div>
                     <div class="cta-method__detail" style="font-size:0.78rem;">yukinashi.contact@gmail.com</div>
