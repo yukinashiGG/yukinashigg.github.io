@@ -19,6 +19,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9TESHKNJZ6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-9TESHKNJZ6');
+    </script>
     <style>
         :root {
             --bg-primary: #fefcfd;
@@ -310,11 +318,23 @@
     </div>
 
     <script>
+        // Helper: Send gtag event safely
+        function trackLinkClick(eventName, label) {
+            if (typeof gtag === 'function') {
+                gtag('event', eventName, {
+                    'event_category': 'outbound_link',
+                    'event_label': label,
+                    'transport_type': 'beacon'
+                });
+            }
+        }
+
         function copyEmail(btn) {
             const titleEl = btn.querySelector('.link-card__title');
             const arrowEl = btn.querySelector('.link-card__arrow');
             const originalTitle = titleEl.textContent;
             const originalArrow = arrowEl.textContent;
+            trackLinkClick('click_links_email', 'email_copy');
             navigator.clipboard.writeText('yukinashi.contact@gmail.com').then(() => {
                 titleEl.textContent = '✅ コピーしました！';
                 arrowEl.textContent = '✓';
@@ -326,6 +346,34 @@
                 alert('コピーに失敗しました。手動でコピーしてください: yukinashi.contact@gmail.com');
             });
         }
+
+        // Outbound link click tracking
+        document.addEventListener('DOMContentLoaded', function() {
+            var trackingRules = [
+                { pattern: 'docs.google.com/forms', event: 'click_links_quote_form' },
+                { pattern: 'pixiv.net/users',       event: 'click_links_pixiv' },
+                { pattern: 'x.com/yukinashi_gg',    event: 'click_links_x_main' },
+                { pattern: 'x.com/yukinashGG_sub',  event: 'click_links_x_tech' },
+                { pattern: 'terms.html',            event: 'click_links_terms' }
+            ];
+
+            document.querySelectorAll('a').forEach(function(link) {
+                link.addEventListener('click', function() {
+                    var href = link.getAttribute('href') || '';
+                    // 公式HP判定(同一ドメインのルート or index)
+                    if (href === 'https://yukinashigg.github.io/' || href === '/' || href === 'index.html') {
+                        trackLinkClick('click_links_hp', href);
+                        return;
+                    }
+                    for (var i = 0; i < trackingRules.length; i++) {
+                        if (href.indexOf(trackingRules[i].pattern) !== -1) {
+                            trackLinkClick(trackingRules[i].event, href);
+                            break;
+                        }
+                    }
+                });
+            });
+        });
     </script>
 
 </body>
