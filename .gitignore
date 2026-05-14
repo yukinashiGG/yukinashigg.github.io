@@ -30,6 +30,8 @@ test_form_send.py
 
 # Large media & work files
 videos/情報.txt
+videos/**/情報.txt
+情報.txt
 Source/
 背景テンプレート/
 showcase_v*.html
@@ -38,3 +40,15 @@ showcase_mockups.html
 *.ai
 *.mp3
 ogp.png
+
+# 旧版・プレビューHTML（公開不要）
+*_old.html
+*_preview.html
+yukinashi-homepage/
+
+# 戦略・作業ドキュメント（リポジトリに含めない）
+_*.md
+HANDOVER*.md
+*レビュー*.md
+更新履歴*.md
+demo_reel*.md
