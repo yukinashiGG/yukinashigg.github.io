@@ -52,3 +52,9 @@ HANDOVER*.md
 *レビュー*.md
 更新履歴*.md
 demo_reel*.md
+
+# 内部ファイル・未使用の元画像（公開しない）
+AGENTS.md
+gallery/*.png
+gallery/*.jpg
+gallery/*.JPG
